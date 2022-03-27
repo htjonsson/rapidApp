@@ -1,0 +1,109 @@
+h2 {
+    font-size: 16pt;    
+}
+.c8-table {
+    border: 1px solid #99AACC;
+    border-collapse:collapse;
+}
+.c8-title-cell {
+    background-color: #BEC8DC; 
+    color: black;
+    border: 1px solid #99AACC;
+}
+.c8-title {
+    font-family: verdana,arial;
+    font-size: 9pt; 
+    text-align: center; 
+    font-weight: bold; 
+    border: 1px solid black; 
+    padding: 4px 10px; 
+    background-color: #BEC8DC; 
+    color: black; 
+    border: 1px solid #99AACC;
+}
+.c8-text {
+    font-family: verdana,arial;
+    font-size: 9pt; 
+    font-weight: normal; 
+    padding: 4px 4px; 
+    color: black; 
+    border: 1px solid #99AACC;
+    background-color: white;
+}
+.c8-number {
+    font-family: verdana,arial;
+    font-size: 9pt; 
+    font-weight: normal; 
+    text-align: right;
+    padding: 4px 4px; 
+    color: black; 
+    border: 1px solid #99AACC;
+    background-color: white;
+}
+.c8-pagination {
+    display: inline-block;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 9pt;
+}
+.c8-pagination a {
+    color: black;
+    float: left;
+    padding: 4px 8px;
+    text-decoration: none;
+    font-weight: normal;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin-top: 2pt;
+}
+.c8-pagination a.active {
+    background-color: #BEC8DC;
+    color: black;
+    font-weight: bold;
+    border: 1px solid #BEC8DC;
+}
+.c8-pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+.c8-input-filter {
+    padding: 4px 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 9pt;
+    margin-top: 4px;
+    margin-bottom: 4px;  
+    width: 280pt;          
+}
+.c8-width-actions {
+    width: 200pt;
+    min-width: 200;
+    max-width: 200; 
+    word-wrap: break-word;
+}
+.c8-width-modified {
+    width: 120pt;
+    min-width: 120pt;
+    max-width: 120pt; 
+    word-wrap: break-word;
+}    
+.c8-gray-color {
+    color: red;
+}
+.c8-icon-text {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 6px;
+    text-decoration: none;
+}
+.c8-icon-text:hover {
+    text-decoration: underline;
+}
+.c8-checkbox {
+    width: 18pt;
+    min-width: 18pt;
+    max-width: 18pt; 
+    text-align: center;            
+}
+.c8-cell-icon {
+    width: 18pt;
+    min-width: 18pt;
+    max-width: 18pt;        
+}        

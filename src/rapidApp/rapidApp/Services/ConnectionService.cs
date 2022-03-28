@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using rapidApp.Repositories;
+using rapidApp.Domains;
 
 namespace rapidApp.Services
 {
@@ -10,6 +11,11 @@ namespace rapidApp.Services
         public ConnectionService()
         {
             this._connectionRepository = new ConnectionRepository();
+        }
+
+        public List<Connection> GetAll() 
+        {
+            return _connectionRepository.GetAll();
         }
     }
 }

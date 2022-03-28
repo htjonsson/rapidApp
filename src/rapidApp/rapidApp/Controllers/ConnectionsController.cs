@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using rapidApp.Services;
+using rapidApp.Context;
+using rapidApp.Repositories;
 namespace rapidApp.Controllers
 {
     [ApiController]
@@ -23,16 +25,9 @@ namespace rapidApp.Controllers
         [HttpGet]
         public JsonResult GetConnections()
         {
-            var domain = new Domains.Connection();
-            domain.Init();
+            var list = _connectionService.GetAll();
 
-            var viewModel = new rapidApp.ViewModels.ConnectionViewModel();
-            viewModel.Init(domain);
-
-            var array = new List<ViewModels.ConnectionViewModel>(1);
-            array.Add(viewModel);
-
-            return new JsonResult(array.ToArray());
+            return new JsonResult(list.ToArray());
         }
         
     }

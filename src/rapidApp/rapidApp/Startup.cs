@@ -18,6 +18,8 @@ namespace rapidApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Bootstraps.Loader.Connections();
         }
 
         public IConfiguration Configuration { get; }

@@ -1,0 +1,374 @@
+<html>
+    <head>
+        <title>Connections</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="style.css"> 
+   </head>
+   
+   <body style="margin-left:60pt;margin-top:8pt;">
+        <div ng-app="_app" ng-controller="_controller" ng-init="init();">
+            <h1 style="text-align: center;">Business Central - Card</h1>
+            <br/>
+
+            <div class="w3-container" style="margin-top: 20pt; margin-left: 150pt; font-size: 10pt; width: 680pt;">
+                <!-- MAIN -->
+                <div class="w3-row" style="margin-top: 4px; margin-bottom: 4px;" ng-repeat="item in layout.main.list">
+                    <div class="w3-cell nx-table-label"><b>{{item.title}}</b></div>
+                    <div class="w3-cell" ng-if="item.type === 'text'">
+                        <input type="text" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}">
+                    </div>
+                    <div class="w3-cell" ng-if="item.type === 'number'">
+                        <input type="text" class="w3-input w3-border nx-input" style="text-align: right;" ng-model="item.model" placeholder="{{item.placeholder}}">
+                    </div>
+                    <div class="w3-cell" ng-if="item.type === 'picklist'">
+                        <select ng-model="item.model" class="w3-select w3-border nx-select">
+                            <option ng-repeat="option in item.availableOptions" value="{{option.value}}">{{option.text}}</option>
+                        </select>
+                    </div>
+                    <div class="w3-cell" ng-if="item.type === 'memo'">
+                        <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
+                    </div>
+                    <div class="w3-cell" ng-if="item.type === 'readonly'">
+                        <input type="text" class="w3-input w3-border nx-input w3-tooltips" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>   
+                    </div>                                              
+                </div>
+                <!-- SECTIONS TABS CONTROL -->
+                <br/>
+    
+                <div class="w3-row">
+                    <button class="w3-cell nx-tab-button" 
+                            style="width:150px" 
+                            ng-click="openSection(section.id, layout.sections);"
+                            ng-class="{'nx-tab-selected': section.active == true}"
+                            ng-repeat="section in layout.sections">{{section.title}}</button>
+    
+                    <div class="w3-rest nx-tab-button-empty">&nbsp;</div>
+                </div>
+    
+                <br/>
+                <!-- SECTIONS -->
+                <div id="{{section.id}}" 
+                    ng-repeat="section in layout.sections" 
+                    style="display: none">
+            
+                    <div class="w3-row" style="margin-top: 4px; margin-bottom: 4px;" ng-repeat="item in section.list">
+                        <div class="w3-cell nx-table-label"><b>{{item.title}}</b></div>
+                        <div class="w3-cell" ng-if="item.type === 'text'">
+                            <input type="text" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}">
+                        </div>
+                        <div class="w3-cell" ng-if="item.type === 'number'">
+                            <input type="text" class="w3-input w3-border nx-input" style="text-align: right;" ng-model="item.model" placeholder="{{item.placeholder}}">
+                        </div>
+                        <div class="w3-cell" ng-if="item.type === 'picklist'">
+                            <select ng-model="item.model" class="w3-select w3-border nx-select">
+                                <option ng-repeat="option in item.availableOptions" value="{{option.value}}">{{option.text}}</option>
+                            </select>
+                        </div>
+                        <div class="w3-cell" ng-if="item.type === 'memo'">
+                            <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
+                        </div>
+                        <div class="w3-cell" ng-if="item.type === 'readonly'">
+                            <input type="text" class="w3-input w3-border nx-input w3-tooltips" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>   
+                        </div>                                              
+                    </div>
+                </div>
+                <br/>
+                <!-- BUTTONBAR -->
+                <div class="w3-container w3-border" style="padding-top: 8pt; padding-bottom: 8pt; background-color: #eee;">
+                    <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">OK</button>
+                    <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">Cancel</button> 
+                    <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onApply()">Apply</button>                
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            var mainApp = angular.module("_app", []);
+            
+            mainApp.controller('_controller', function($scope, $http) {
+
+                $scope.model = {
+                    id: "f7c89148-3296-ec11-80f2-000d3a0cad1f",
+                    number: "C00070",
+                    displayName: "Connor Tester1414 - #304555",
+                    type: "Person",
+                    addressLine1: "",
+                    addressLine2: "",
+                    city: "",
+                    state: "",
+                    country: "",
+                    postalCode: "",
+                    phoneNumber: "",
+                    email: "connortester1414@unite.com",
+                    website: "",
+                    salespersonCode: "",
+                    balanceDue: 10,
+                    creditLimit: 0,
+                    taxLiable: 'false',
+                    taxAreaId: "00000000-0000-0000-0000-000000000000",
+                    taxAreaDisplayName: "",
+                    taxRegistrationNumber: "",
+                    currencyId: "00000000-0000-0000-0000-000000000000",
+                    currencyCode: "GBP",
+                    paymentTermsId: "7269b205-081c-ec11-bb76-000d3a245f47",
+                    shipmentMethodId: "00000000-0000-0000-0000-000000000000",
+                    paymentMethodId: "ac6cb205-081c-ec11-bb76-000d3a245f47",
+                    blocked: "_x0020_",
+                    lastModifiedDateTime: "2022-02-25T16:24:31.537Z"
+                }
+                $scope.layout = {
+                    main: {
+                            title: "main",
+                            list: [
+                                {
+                                    id: "number",
+                                    title: "Number:",
+                                    type: "text"
+                                },                
+                                {
+                                    id: "displayName",
+                                    title: "Name:",
+                                    type: "text"
+                                },
+                                {
+                                    id: "type",
+                                    title: "Type:",
+                                    type: "picklist",
+                                    availableOptions: [
+                                        {value: 'Company', text: 'Company'},
+                                        {value: 'Person', text: 'Person'}                     
+                                    ]
+                                },
+                                {
+                                    id: "balanceDue",
+                                    title: "Balance Due",
+                                    type: "readonly"
+                                }
+                            ]
+                    },
+                    sections: [
+                        {
+                            id: "address",
+                            title: "address",
+                            active: true,
+                            list: [
+                                {
+                                    id: "addressLine1",
+                                    title: "Address",
+                                    type: "text"
+                                },
+                                {
+                                    id: "addressLine2",
+                                    title: "Address 2",
+                                    type: "text"
+                                },
+                                {
+                                    id: "state",
+                                    title: "Country/Region Code",
+                                    type: "text"
+                                },                
+                                {
+                                    id: "city",
+                                    title: "City",
+                                    type: "text"
+                                },
+                                {
+                                    id: "postalCode",
+                                    title: "Postcode",
+                                    type: "text"
+                                },
+                                {
+                                    id: "phoneNumber",
+                                    title: "Phone No.",
+                                    type: "text"
+                                },
+                                {
+                                    id: "email",
+                                    title: "Email",
+                                    type: "text"
+                                },
+                                {
+                                    id: "website",
+                                    title: "Home Page",
+                                    type: "text"
+                                },                                     
+                                {
+                                    id: "email",
+                                    title: "Email",
+                                    type: "text"
+                                }
+                            ]
+                        },
+                        {   
+                            id: "aux",
+                            title: "aux",
+                            active: false,
+                            list: [
+                                {
+                                    id: "salespersonCode",
+                                    title: "Sales Person",
+                                    type: "text"
+                                },
+                                {
+                                    id: "creditLimit",
+                                    title: "Credit Limit",
+                                    type: "number"
+                                },
+                                {
+                                    id: "taxLiable",
+                                    title: "Tax Liable:",
+                                    type: "picklist",
+                                    availableOptions: [
+                                        {value: 'true', text: 'YES'},
+                                        {value: 'false', text: 'NO'}                     
+                                    ]
+                                },                                     
+                                {
+                                    id: "taxAreaDisplayName",
+                                    title: "Tax Area:",
+                                    type: "text"
+                                },                                                    
+                                {
+                                    id: "taxRegistrationNumber",
+                                    title: "Tax Registration Number:",
+                                    type: "text"
+                                },                                                    
+                                {
+                                    id: "currencyCode",
+                                    title: "Currency:",
+                                    type: "picklist",
+                                    availableOptions: [
+                                        {value: 'GBP', text: 'GBP'},
+                                        {value: 'USD', text: 'USD'}                     
+                                    ]                    
+                                },
+                                {
+                                    id: "paymentTermsId",
+                                    title: "Payment Terms:",
+                                    type: "text"                 
+                                },
+                                {
+                                    id: "shipmentMethodId",
+                                    title: "Shipment Method:",
+                                    type: "text"                 
+                                },
+                                {
+                                    id: "paymentMethodId",
+                                    title: "Payment Method:",
+                                    type: "text"                 
+                                }
+                            ]
+                        }
+                    ]
+                }
+
+                $scope.init = () => {
+                    $scope.setValues();
+
+                    var searchParams = new URLSearchParams(window.location.search);
+                    if (searchParams.has('id') === true) {
+                        var id = searchParams.get('id');
+                        $scope.getCard(id);
+                    }
+                    
+                    setTimeout(() => {
+                        if ($scope.layout.sections && $scope.layout.sections.length > 0) {
+                            $scope.openSection($scope.layout.sections[0].id, $scope.layout.sections);
+                        }
+                    }, 5);
+                }
+                $scope.openSection = (id, tabList) => {
+                    tabList.forEach(e => {
+                        var elm = document.getElementById(e.id);
+
+                        if (id === e.id) {
+                            e.active = true;
+                            if (elm) {
+                                elm.style.display = "block";
+                            }
+                        } else {
+                            e.active = false;
+                            if (elm) {
+                                elm.style.display = "none";
+                            }
+                        }      
+                    });
+                }
+                $scope.setValues = () => {
+                    /* MAIN */
+                    $scope.layout.main.list.forEach((item, idx) => {
+                        $scope.layout.main.list[idx].model = $scope.model[item.id]; 
+                    });       
+                    /* SECTIONS */
+                    $scope.layout.sections.forEach((section) => {
+                        section.list.forEach((item, idx) => {
+                            section.list[idx].model = $scope.model[item.id]; 
+                        });  
+                    });
+                }
+                $scope.getValues = () => {
+                    /* MAIN */
+                    $scope.layout.main.list.forEach((item, idx) => {
+                        $scope.model[item.id] = $scope.layout.main.list[idx].model; 
+                    });       
+                    /* SECTIONS */
+                    $scope.layout.sections.forEach((section) => {
+                        section.list.forEach((item, idx) => {
+                            $scope.model[item.id] = section.list[idx].model; 
+                        });  
+                    });            
+                }
+                $scope.getCard = (id) => {
+                    debugger;
+                    var request = {
+                        method: 'GET',
+                        url: 'https://localhost:5001/api/v1/card/' + id,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    $http(request).then(
+                        successCallback = (response) => {
+                            debugger;
+                            $scope.card = response.data;
+                        },
+                        errorCallback = (response) => {
+                            alert("Something went wrong");
+                        } 
+                    );            
+                }
+                $scope.saveCard = () => {
+                    debugger;
+                    var request = {
+                        method: 'POST',
+                        url: 'https://localhost:5001/api/v1/card/save',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        data: JSON.stringify($scope.model)
+                    }
+                    $http(request).then(
+                        successCallback = (response) => {
+                            $scope.status = response.data.status;
+                        },
+                        errorCallback = (response) => {
+                            alert("Something went wrong");
+                        } 
+                    );            
+                }
+                $scope.onApply = () => {
+                    debugger;
+                    $scope.setValues();
+                    $scope.saveCard();
+                }
+            });
+        </script>
+      
+   </body>
+</html>

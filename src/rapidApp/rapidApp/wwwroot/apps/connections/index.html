@@ -31,7 +31,9 @@
                         <i class="material-icons">{{record.type}}</i>
                     </td>
                     <td class="c8-text">       
-                        <a href="#" class="c8-icon-text">{{record.name}}</a>
+                        <a href="javascript:void(0)" class="c8-icon-text" ng-click="onclick(record)">
+                            {{record.name}}
+                        </a>
                     </td>
                     <td class="c8-text">{{record.description}}</td>
                     <td class="c8-text c8-width-modified">{{record.modifiedDate.getTime()}}</td>
@@ -79,6 +81,9 @@
                             alert("Error in connections");
                         } 
                     );            
+                }
+                $scope.onclick = (record) => {
+                    window.open("/apps/cards/index.html?id=" + record.id);
                 }
             });
         </script>

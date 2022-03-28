@@ -12,10 +12,6 @@
         <div ng-app="_app" ng-controller="_controller" ng-init="init();">
             <h1 style="text-align: center;">Business Central - Sales Invoices</h1>
 
-
-            {{origin}}<br/>
-            {{location}}<br/>
-
             <br/>
             <table class="c8-table" border="0" style="width: calc(100vw - (2 * 60pt))">
                 <tr>
@@ -26,7 +22,6 @@
                     <th class="c8-title" style="text-align: left;">Name</th>
                     <th class="c8-title">Description</th>
                     <th class="c8-title c8-width-modified">Modified</th>
-                    <th class="c8-title c8-width-modified">Actions</th>
                 </tr>
                 <tr ng-repeat="record in connections.value">
                     <td class="c8-checkbox">
@@ -39,12 +34,9 @@
                         <a href="#" class="c8-icon-text">{{record.name}}</a>
                     </td>
                     <td class="c8-text">{{record.description}}</td>
-                    <td class="c8-text c8-width-modified">{{record.modifiedDate}}</td>
-                    <td class="c8-text c8-width-modified"></td>
+                    <td class="c8-text c8-width-modified">{{record.modifiedDate.getTime()}}</td>
                 </tr>
             </table>
-            {{connections}}
-
         </div>
 
         <script>
@@ -62,20 +54,6 @@
                     $scope.connections = { value : [] }
 
                     $scope.getConnections();
-                    /*
-                    $scope.connections.value = [
-                        {
-                            "type" : "folder",
-                            "materialIcon" : "folder",
-                            "name" : "Cognos 10 Samples",
-                            "description" : "",
-                            "modified" : "2018-12-10T13:49:51.141Z",
-                            "checked" : true
-                        }
-                    ];
-                    */
-
-
                 }
                 $scope.getConnections = () => {
                     debugger;
@@ -92,6 +70,10 @@
                         successCallback = (response) => {
                             debugger;
                             $scope.connections.value = response.data;
+                            
+                            $scope.connections.value.array.forEach(e => {
+                               e.modifiedDate = new Date(e.modifiedDate);
+                            });
                         },
                         errorCallback = (response) => {
                             alert("Error in connections");

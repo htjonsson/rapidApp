@@ -29,7 +29,10 @@ namespace rapidApp.Controllers
             var viewModel = new rapidApp.ViewModels.ConnectionViewModel();
             viewModel.Init(domain);
 
-            return new JsonResult(viewModel);
+            var array = new List<ViewModels.ConnectionViewModel>(1);
+            array.Add(viewModel);
+
+            return new JsonResult(array.ToArray());
         }
         
     }

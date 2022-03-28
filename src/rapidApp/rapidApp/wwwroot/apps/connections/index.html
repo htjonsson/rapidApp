@@ -33,16 +33,18 @@
                         <input type="checkbox" ng-model="record.checked">
                     </td>
                     <td class="c8-cell-icon">
-                        <i class="material-icons">{{record.materialIcon}}</i>
+                        <i class="material-icons">{{record.type}}</i>
                     </td>
                     <td class="c8-text">       
                         <a href="#" class="c8-icon-text">{{record.name}}</a>
                     </td>
                     <td class="c8-text">{{record.description}}</td>
-                    <td class="c8-text c8-width-modified">{{record.modified}}</td>
+                    <td class="c8-text c8-width-modified">{{record.modifiedDate}}</td>
                     <td class="c8-text c8-width-modified"></td>
                 </tr>
             </table>
+            {{connections}}
+
         </div>
 
         <script>
@@ -55,8 +57,12 @@
                 $scope.init = () => {
                     $scope.location = window.location;
                     $scope.origin = window.location.origin;
-                    $scope.checked = true;
+                    $scope.checked = false;
 
+                    $scope.connections = { value : [] }
+
+                    $scope.getConnections();
+                    /*
                     $scope.connections.value = [
                         {
                             "type" : "folder",
@@ -67,6 +73,30 @@
                             "checked" : true
                         }
                     ];
+                    */
+
+
+                }
+                $scope.getConnections = () => {
+                    debugger;
+                    var request = {
+                        method: 'GET',
+                        url: 'https://localhost:5001/api/v1/connections',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': $scope.authorization
+                        }
+                    }
+                    $http(request).then(
+                        successCallback = (response) => {
+                            debugger;
+                            $scope.connections.value = response.data;
+                        },
+                        errorCallback = (response) => {
+                            alert("Error in connections");
+                        } 
+                    );            
                 }
             });
         </script>

@@ -18,7 +18,6 @@
                         <h3>EZSetup</h3>
                         <p>Configuration information</p>
                     </div>
-                    <br/>
                     <!-- SECTIONS TABS CONTROL -->
                     <br/>
         
@@ -47,13 +46,181 @@
                     <div class="w3-container w3-border" style="padding-top: 8pt; padding-bottom: 8pt; background-color: #eee;">
                         <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">OK</button>
                         <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">Cancel</button> 
-                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onApply()">Apply</button>                
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onApply()">Apply</button> 
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onPreview()">Preview</button>               
                     </div>
-                    <div ng-include="'/components/shuttle.html'"></div> 
                 </div>
             </div>
-
+            {{model}}
         </div>
+
+        <!-- SHUTTLE JAVASCRIPT LOGIC -->
+        <script>
+            ___shuttle_init = (id, array) => {
+                var list = ___shuttle_getAll(id);
+                ___shuttle_remove(id, list);
+                ___shuttle_insert(id, array);
+            }
+            ___shuttle_moveToTop = (id) => {
+                var list = ___shuttle_getSelected(id);
+                ___shuttle_remove(id, list);
+                ___shuttle_insertAt(0, id, list);
+                ___shuttle_makeSelected(id, list);
+            }
+            ___shuttle_moveUp = (id) => {
+                var list = ___shuttle_getSelected(id);
+                var idx = ___shuttle_getTopIndex(id, list);
+                ___shuttle_remove(id, list);
+                ___shuttle_insertAt(idx, id, list);
+                ___shuttle_makeSelected(id, list);
+            }
+            ___shuttle_moveDown = (id) => {
+                var list = ___shuttle_getSelected(id);
+                var idx = ___shuttle_getBottomIndex(id, list);
+                ___shuttle_remove(id, list);
+                ___shuttle_insertAt(idx, id, list);
+                ___shuttle_makeSelected(id, list);
+            }
+            ___shuttle_moveToBottom = (id) => {
+                var list = ___shuttle_getSelected(id);
+                ___shuttle_remove(id, list);   
+                ___shuttle_insertAt(-1, id, list);
+                ___shuttle_makeSelected(id, list);      
+            }
+            ___shuttle_moveAll = (id, sid) => {
+                var list = ___shuttle_getAll(id);
+                ___shuttle_remove(id, list);
+                ___shuttle_insert(sid, list);        
+            }
+            ___shuttle_moveSelected = (id, sid) => {
+                var list = ___shuttle_getSelected(id);
+                ___shuttle_remove(id, list);
+                ___shuttle_insert(sid, list);
+            }
+            ___shuttle_remove = (id, array) => {
+                var list = document.getElementById(id);
+
+                array.forEach((e) => {
+                    for (var i = list.length-1; i >= 0; i--) {
+                        if (e == list.options[i].label) {
+                            list.remove(i);
+                        }
+                    }              
+                });
+            }
+            ___shuttle_getTopIndex = (id, array) => {
+                var list = document.getElementById(id);
+                var cmp = array[0];
+
+                for(i=0; i <list.options.length; i++) {
+                    if (list.options[i].label === cmp) {
+                        if (i === 0) {
+                            return 0;
+                        } else {
+                            return i-1;
+                        }
+                    }
+                }
+                return 0;
+            }
+            ___shuttle_getBottomIndex = (id, array) => {
+                var list = document.getElementById(id);
+                var cmp = array[array.length-1];
+                var idx = list.options.length - array.length;
+
+                for(i=0; i <list.options.length; i++) {
+                    if (list.options[i].label === cmp) {
+                        if (i === idx ) {
+                            return -1
+                        } else {
+                            return i+1;
+                        }
+                    }
+                }
+                return 0;
+            }
+            ___shuttle_insert = (id, array) => {
+                var list = document.getElementById(id);
+
+                array.forEach((e) => {
+                    var option = document.createElement("option");
+                    option.text = e;
+                    list.add(option);           
+                });            
+            }
+            ___shuttle_insertAt = (idx, id, array) => {
+                var list = document.getElementById(id);
+
+                if (idx === 0) {
+                    for (var i = 0; i <array.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = array[i];
+                        option.value = array[i];
+                        list.add(option, idx+i);           
+                    }
+                } 
+                else if (idx === -1) {
+                    for (var i = 0; i <array.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = array[i];
+                        option.value = array[i];
+                        list.add(option);           
+                    }
+                }
+                else {
+                    for (var i = 0; i <array.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = array[i];
+                        option.value = array[i];
+                        list.add(option, idx+i);           
+                    }            
+                } 
+            }
+            ___shuttle_getSelected = (id) => {
+                var list = document.getElementById(id);
+
+                var result = [];
+                for (var i = 0; i <list.length; i++) {
+                    if (list.options[i].selected) {
+                        result.push(list.options[i].label);
+                    }
+                }             
+                return result;
+            }
+            ___shuttle_makeSelected = (id, array) => {
+                var list = document.getElementById(id);
+                array.forEach((e) => {
+                    for (var i = 0; i < list.options.length; i++) {
+                        if (e == list.options[i].label) {
+                            list.options[i].selected = true;
+                        }
+                    }              
+                });
+            }
+            ___shuttle_getAll = (id) => {
+                var list = document.getElementById(id);
+
+                var result = [];
+                for (var i = 0; i <list.length; i++) {
+                        result.push(list.options[i].label);
+                }             
+                return result;           
+            }
+            ___shuttle_selectAll = (id) => {
+                var list = document.getElementById(id);
+
+                for (var i=0; i<list.length; i++) {
+                    list.options[i].selected = true;
+                } 
+            }
+            ___shuttle_selectNone = (id) => {
+                var list = document.getElementById(id);
+
+                for (var i=0; i<list.length; i++) {
+                    list.options[i].selected = false;
+                } 
+            }        
+        </script>
 
         <script>
             var mainApp = angular.module("_app", []);
@@ -88,19 +255,6 @@
                             ]
                         },
                         {   
-                            id: "source",
-                            title: "Source",
-                            active: false,
-                            list: [
-                                {
-                                    id: "code",
-                                    title: "Source Code",
-                                    type: "memo",
-                                    rows: 20
-                                }
-                            ]
-                        },
-                        {   
                             id: "shuttle",
                             title: "Shuttle",
                             active: false,
@@ -108,7 +262,21 @@
                                 {
                                     id: "shuttle",
                                     title: "Shuttle",
-                                    type: "shuttle"
+                                    type: "shuttle",
+                                    values: ['unticked1','unticked2','unticked3','unticked4','unticked5','ticked1','ticked2','ticked3']
+                                }
+                            ]
+                        },                        
+                        {   
+                            id: "source",
+                            title: "Source",
+                            active: false,
+                            list: [
+                                {
+                                    id: "code",
+                                    title: "Source Code",
+                                    type: "source",
+                                    rows: 20
                                 }
                             ]
                         }                        
@@ -116,8 +284,6 @@
                 }
 
                 $scope.init = () => {
-                    // $scope.setValues();
-
                     var searchParams = new URLSearchParams(window.location.search);
                     if (searchParams.has('id') === true) {
                         var id = searchParams.get('id');
@@ -128,6 +294,7 @@
                         if ($scope.layout.sections && $scope.layout.sections.length > 0) {
                             $scope.openSection($scope.layout.sections[0].id, $scope.layout.sections);
                         }
+                        $scope.setValues();
                     }, 5);
                 }
                 $scope.openSection = (id, tabList) => {
@@ -139,6 +306,7 @@
                             if (elm) {
                                 elm.style.display = "block";
                             }
+                            $scope.onTab(id);
                         } else {
                             e.active = false;
                             if (elm) {
@@ -147,27 +315,52 @@
                         }      
                     });
                 }
-                $scope.setValues = () => {
-                    /* MAIN */
-                    $scope.layout.main.list.forEach((item, idx) => {
-                        $scope.layout.main.list[idx].model = $scope.model[item.id]; 
-                    });       
+                $scope.onTab = (id) => {
+                    if (id === "shuttle") {
+                        debugger;
+                        var values = $scope.layout.sections[1].list[0].values;
+                        var checked = [];
+                        var unchecked = [];
+
+                        if (model['shuttle']) {
+                            values.foreach(e => {
+                                if (model['shuttle'].indexOf(e) == -1) {
+                                    unchecked.push(e);
+                                } 
+                                else {
+                                    checked.push(e);
+                                }
+                            });
+                        }
+                        else {
+                            unchecked = values;
+                        }
+
+                        debugger;
+                        ___shuttle_init('___shuttleList1', unchecked);
+                        ___shuttle_init('___shuttleList2', checked);
+                    }
+                }
+                $scope.setValues = () => {  
+                    debugger;   
                     /* SECTIONS */
                     $scope.layout.sections.forEach((section) => {
                         section.list.forEach((item, idx) => {
-                            section.list[idx].model = $scope.model[item.id]; 
+                            if(section.list[idx].type == "shuttle") {
+                            } 
+                            else {
+                                section.list[idx].model = $scope.model[item.id];
+                            } 
                         });  
                     });
                 }
-                $scope.getValues = () => {
-                    /* MAIN */
-                    $scope.layout.main.list.forEach((item, idx) => {
-                        $scope.model[item.id] = $scope.layout.main.list[idx].model; 
-                    });       
+                $scope.getValues = () => {     
                     /* SECTIONS */
                     $scope.layout.sections.forEach((section) => {
                         section.list.forEach((item, idx) => {
-                            $scope.model[item.id] = section.list[idx].model; 
+                            if(section.list[idx].type != "shuttle") {
+                                $scope.model[item.id] = section.list[idx].model; 
+                            }
                         });  
                     });            
                 }
@@ -208,9 +401,15 @@
                         } 
                     );            
                 }
+                $scope.onOK = () => {
+
+                }
                 $scope.onApply = () => {
-                    $scope.setValues();
+                    $scope.getValues();
                     $scope.saveTemplate();
+                }
+                $scope.onPreview = () => {
+                    console.log("preview");
                 }
             });
         </script>

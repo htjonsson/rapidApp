@@ -78,6 +78,7 @@
 }
 .nx-table-label {
     width: 180pt;
+    vertical-align: top;
 }
 .nx-shuttle-button {
     width: 44pt;

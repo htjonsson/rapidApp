@@ -13,9 +13,89 @@
 <div class="w3-cell" ng-if="item.type === 'memo'">
     <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
 </div>
+<div class="w3-cell" ng-if="item.type === 'source'">
+    <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" style="width: 630px;" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
+</div>
 <div class="w3-cell" ng-if="item.type === 'readonly'">
     <input type="text" class="w3-input w3-border nx-input w3-tooltips" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>   
 </div>
 <div class="w3-cell" ng-if="item.type === 'shuttle'">
-    
+    <!-- SHUTTLE HTML LOGIC -->
+    <table id="___shuttle" style="font-size: 9pt;">
+        <tr>
+            <td>
+                <select id="___shuttleList1" 
+                            name="val" 
+                            size="20" 
+                            style="width: 220px;" 
+                            multiple 
+                            ondblclick="___shuttle_moveSelected('___shuttleList1','___shuttleList2');">
+
+                    <option value="A">Apple</option>
+                    <option value="C">Cars</option>
+                    <option value="H">Honda</option>
+                    <option value="F">Fiat</option>
+                    <option value="I">Indigo</option>                    
+                </select> 
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveAll('___shuttleList1','___shuttleList2');">>></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveSelected('___shuttleList1','___shuttleList2');">></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveSelected('___shuttleList2','___shuttleList1');"><</button>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveAll('___shuttleList2','___shuttleList1');"><<</button>
+                        </td>
+                    </tr>                    
+                </table>
+            </td>
+            <td>
+                <select id="___shuttleList2" 
+                            name="val" 
+                            size="20"  
+                            style="width: 220px;" 
+                            multiple 
+                            ondblclick="___shuttle_moveSelected('___shuttleList2','___shuttleList1');">                 
+                </select> 
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveToTop('___shuttleList2');">Top</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveUp('___shuttleList2');">Up</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="nx-shuttle-button" onclick="___shuttle_moveDown('___shuttleList2');">Down</button>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            <button oclass="nx-shuttle-button" onclick="___shuttle_moveToBottom('___shuttleList2');">Bottom</button>
+                        </td>
+                    </tr>                    
+                </table>
+            </td>
+        </tr>
+    </table>
 </div>  
+

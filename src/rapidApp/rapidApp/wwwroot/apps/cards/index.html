@@ -8,79 +8,53 @@
         <link rel="stylesheet" href="style.css"> 
    </head>
    
-   <body style="margin-left:60pt;margin-top:8pt;">
+   <body style="margin-left:60pt;margin-top:8pt;background-color: #eee; ">
         <div ng-app="_app" ng-controller="_controller" ng-init="init();">
-            <h1 style="text-align: center;">Business Central - Card</h1>
-            <br/>
 
-            <div class="w3-container" style="margin-top: 20pt; margin-left: 150pt; font-size: 10pt; width: 680pt;">
-                <!-- MAIN -->
-                <div class="w3-row" style="margin-top: 4px; margin-bottom: 4px;" ng-repeat="item in layout.main.list">
-                    <div class="w3-cell nx-table-label"><b>{{item.title}}</b></div>
-                    <div class="w3-cell" ng-if="item.type === 'text'">
-                        <input type="text" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}">
+            <div class="nx-center">
+                <div class="w3-container nx-center" style="margin-top: 20pt; font-size: 10pt; width: 680pt; padding-bottom: 16pt; background-color: #fff;">
+                    <!-- PANEL -->
+                    <div class="w3-panel" style="background-color: #C3C300; color: #eee">
+                        <h3>EZSetup</h3>
+                        <p>Configuration information</p>
                     </div>
-                    <div class="w3-cell" ng-if="item.type === 'number'">
-                        <input type="text" class="w3-input w3-border nx-input" style="text-align: right;" ng-model="item.model" placeholder="{{item.placeholder}}">
+                    <br/>
+                    <!-- MAIN -->
+                    <div class="w3-row" 
+                         ng-repeat="item in layout.main.list"
+                         style="margin-top: 4px; margin-bottom: 4px; margin-left: 8pt; margin-right: 8pt;">
+                        <div ng-include="'/templates/card-section-template.html'"></div>                                      
                     </div>
-                    <div class="w3-cell" ng-if="item.type === 'picklist'">
-                        <select ng-model="item.model" class="w3-select w3-border nx-select">
-                            <option ng-repeat="option in item.availableOptions" value="{{option.value}}">{{option.text}}</option>
-                        </select>
+                    <!-- SECTIONS TABS CONTROL -->
+                    <br/>
+        
+                    <div class="w3-row">
+                        <button class="w3-cell nx-tab-button" 
+                                style="width:150px" 
+                                ng-click="openSection(section.id, layout.sections);"
+                                ng-class="{'nx-tab-selected': section.active == true}"
+                                ng-repeat="section in layout.sections">{{section.title}}</button>
+        
+                        <div class="w3-rest nx-tab-button-empty">&nbsp;</div>
                     </div>
-                    <div class="w3-cell" ng-if="item.type === 'memo'">
-                        <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
-                    </div>
-                    <div class="w3-cell" ng-if="item.type === 'readonly'">
-                        <input type="text" class="w3-input w3-border nx-input w3-tooltips" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>   
-                    </div>                                              
-                </div>
-                <!-- SECTIONS TABS CONTROL -->
-                <br/>
-    
-                <div class="w3-row">
-                    <button class="w3-cell nx-tab-button" 
-                            style="width:150px" 
-                            ng-click="openSection(section.id, layout.sections);"
-                            ng-class="{'nx-tab-selected': section.active == true}"
-                            ng-repeat="section in layout.sections">{{section.title}}</button>
-    
-                    <div class="w3-rest nx-tab-button-empty">&nbsp;</div>
-                </div>
-    
-                <br/>
-                <!-- SECTIONS -->
-                <div id="{{section.id}}" 
-                    ng-repeat="section in layout.sections" 
-                    style="display: none">
-            
-                    <div class="w3-row" style="margin-top: 4px; margin-bottom: 4px;" ng-repeat="item in section.list">
-                        <div class="w3-cell nx-table-label"><b>{{item.title}}</b></div>
-                        <div class="w3-cell" ng-if="item.type === 'text'">
-                            <input type="text" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}">
+        
+                    <br/>
+                    <!-- SECTIONS -->
+                    <div id="{{section.id}}" 
+                        ng-repeat="section in layout.sections" 
+                        style="display: none; margin-left: 8pt; margin-right: 8pt;">
+                
+                        <div class="w3-row" style="margin-top: 4px; margin-bottom: 4px;" ng-repeat="item in section.list">
+                            <div ng-include="'/templates/card-section-template.html'"></div>                                                    
                         </div>
-                        <div class="w3-cell" ng-if="item.type === 'number'">
-                            <input type="text" class="w3-input w3-border nx-input" style="text-align: right;" ng-model="item.model" placeholder="{{item.placeholder}}">
-                        </div>
-                        <div class="w3-cell" ng-if="item.type === 'picklist'">
-                            <select ng-model="item.model" class="w3-select w3-border nx-select">
-                                <option ng-repeat="option in item.availableOptions" value="{{option.value}}">{{option.text}}</option>
-                            </select>
-                        </div>
-                        <div class="w3-cell" ng-if="item.type === 'memo'">
-                            <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
-                        </div>
-                        <div class="w3-cell" ng-if="item.type === 'readonly'">
-                            <input type="text" class="w3-input w3-border nx-input w3-tooltips" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>   
-                        </div>                                              
                     </div>
-                </div>
-                <br/>
-                <!-- BUTTONBAR -->
-                <div class="w3-container w3-border" style="padding-top: 8pt; padding-bottom: 8pt; background-color: #eee;">
-                    <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">OK</button>
-                    <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">Cancel</button> 
-                    <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onApply()">Apply</button>                
+                    <br/>
+                    <!-- BUTTONBAR -->
+                    <div class="w3-container w3-border" style="padding-top: 8pt; padding-bottom: 8pt; background-color: #eee;">
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">OK</button>
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">Cancel</button> 
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onApply()">Apply</button>                
+                    </div>
                 </div>
             </div>
 
@@ -323,7 +297,6 @@
                     });            
                 }
                 $scope.getCard = (id) => {
-                    debugger;
                     var request = {
                         method: 'GET',
                         url: 'https://localhost:5001/api/v1/card/' + id,
@@ -334,7 +307,6 @@
                     }
                     $http(request).then(
                         successCallback = (response) => {
-                            debugger;
                             $scope.card = response.data;
                         },
                         errorCallback = (response) => {
@@ -363,7 +335,6 @@
                     );            
                 }
                 $scope.onApply = () => {
-                    debugger;
                     $scope.setValues();
                     $scope.saveCard();
                 }

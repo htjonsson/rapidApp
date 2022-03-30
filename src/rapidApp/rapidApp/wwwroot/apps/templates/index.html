@@ -1,0 +1,219 @@
+<html>
+    <head>
+        <title>Connections</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="style.css"> 
+   </head>
+   
+   <body style="margin-left:60pt;margin-top:8pt;background-color: #eee; ">
+        <div ng-app="_app" ng-controller="_controller" ng-init="init();">
+
+            <div class="nx-center">
+                <div class="w3-container nx-center" style="margin-top: 20pt; font-size: 10pt; width: 680pt; padding-bottom: 16pt; background-color: #fff;">
+                    <!-- PANEL -->
+                    <div class="w3-panel" style="background-color: #C3C300; color: #eee">
+                        <h3>EZSetup</h3>
+                        <p>Configuration information</p>
+                    </div>
+                    <br/>
+                    <!-- SECTIONS TABS CONTROL -->
+                    <br/>
+        
+                    <div class="w3-row">
+                        <button class="w3-cell nx-tab-button" 
+                                style="width:150px" 
+                                ng-click="openSection(section.id, layout.sections);"
+                                ng-class="{'nx-tab-selected': section.active == true}"
+                                ng-repeat="section in layout.sections">{{section.title}}</button>
+        
+                        <div class="w3-rest nx-tab-button-empty">&nbsp;</div>
+                    </div>
+        
+                    <br/>
+                    <!-- SECTIONS -->
+                    <div id="{{section.id}}" 
+                        ng-repeat="section in layout.sections" 
+                        style="display: none; margin-left: 8pt; margin-right: 8pt;">
+                
+                        <div class="w3-row" style="margin-top: 4px; margin-bottom: 4px;" ng-repeat="item in section.list">
+                            <div ng-include="'/templates/card-section-template.html'"></div>                                                    
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- BUTTONBAR -->
+                    <div class="w3-container w3-border" style="padding-top: 8pt; padding-bottom: 8pt; background-color: #eee;">
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">OK</button>
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">Cancel</button> 
+                        <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;" ng-click="onApply()">Apply</button>                
+                    </div>
+                    <div ng-include="'/components/shuttle.html'"></div> 
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            var mainApp = angular.module("_app", []);
+            
+            mainApp.controller('_controller', function($scope, $http) {
+
+                $scope.model = {
+                }
+                $scope.layout = {
+                    sections: [
+                        {
+                            id: "template",
+                            title: "Template",
+                            active: true,
+                            list: [
+                                {
+                                    id: "id",
+                                    title: "Id",
+                                    type: "text"
+                                },
+                                {
+                                    id: "name",
+                                    title: "Name",
+                                    type: "text"
+                                },
+                                {
+                                    id: "description",
+                                    title: "Description",
+                                    type: "memo",
+                                    rows: 10
+                                }
+                            ]
+                        },
+                        {   
+                            id: "source",
+                            title: "Source",
+                            active: false,
+                            list: [
+                                {
+                                    id: "code",
+                                    title: "Source Code",
+                                    type: "memo",
+                                    rows: 20
+                                }
+                            ]
+                        },
+                        {   
+                            id: "shuttle",
+                            title: "Shuttle",
+                            active: false,
+                            list: [
+                                {
+                                    id: "shuttle",
+                                    title: "Shuttle",
+                                    type: "shuttle"
+                                }
+                            ]
+                        }                        
+                    ]
+                }
+
+                $scope.init = () => {
+                    // $scope.setValues();
+
+                    var searchParams = new URLSearchParams(window.location.search);
+                    if (searchParams.has('id') === true) {
+                        var id = searchParams.get('id');
+                        // $scope.getTemplate(id);
+                    }
+                    
+                    setTimeout(() => {
+                        if ($scope.layout.sections && $scope.layout.sections.length > 0) {
+                            $scope.openSection($scope.layout.sections[0].id, $scope.layout.sections);
+                        }
+                    }, 5);
+                }
+                $scope.openSection = (id, tabList) => {
+                    tabList.forEach(e => {
+                        var elm = document.getElementById(e.id);
+
+                        if (id === e.id) {
+                            e.active = true;
+                            if (elm) {
+                                elm.style.display = "block";
+                            }
+                        } else {
+                            e.active = false;
+                            if (elm) {
+                                elm.style.display = "none";
+                            }
+                        }      
+                    });
+                }
+                $scope.setValues = () => {
+                    /* MAIN */
+                    $scope.layout.main.list.forEach((item, idx) => {
+                        $scope.layout.main.list[idx].model = $scope.model[item.id]; 
+                    });       
+                    /* SECTIONS */
+                    $scope.layout.sections.forEach((section) => {
+                        section.list.forEach((item, idx) => {
+                            section.list[idx].model = $scope.model[item.id]; 
+                        });  
+                    });
+                }
+                $scope.getValues = () => {
+                    /* MAIN */
+                    $scope.layout.main.list.forEach((item, idx) => {
+                        $scope.model[item.id] = $scope.layout.main.list[idx].model; 
+                    });       
+                    /* SECTIONS */
+                    $scope.layout.sections.forEach((section) => {
+                        section.list.forEach((item, idx) => {
+                            $scope.model[item.id] = section.list[idx].model; 
+                        });  
+                    });            
+                }
+                $scope.getTemplate = (id) => {
+                    var request = {
+                        method: 'GET',
+                        url: 'https://localhost:5001/api/v1/template/' + id,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    $http(request).then(
+                        successCallback = (response) => {
+                            $scope.card = response.data;
+                        },
+                        errorCallback = (response) => {
+                            alert("Something went wrong");
+                        } 
+                    );            
+                }
+                $scope.saveTemplate = () => {;
+                    var request = {
+                        method: 'POST',
+                        url: 'https://localhost:5001/api/v1/template/save',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        data: JSON.stringify($scope.model)
+                    }
+                    $http(request).then(
+                        successCallback = (response) => {
+                            $scope.status = response.data.status;
+                        },
+                        errorCallback = (response) => {
+                            alert("Something went wrong");
+                        } 
+                    );            
+                }
+                $scope.onApply = () => {
+                    $scope.setValues();
+                    $scope.saveTemplate();
+                }
+            });
+        </script>
+      
+   </body>
+</html>

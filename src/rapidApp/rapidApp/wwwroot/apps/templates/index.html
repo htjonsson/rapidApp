@@ -15,7 +15,7 @@
                 <div class="w3-container nx-center" style="margin-top: 20pt; font-size: 10pt; width: 680pt; padding-bottom: 16pt; background-color: #fff;">
                     <!-- PANEL -->
                     <div class="w3-panel" style="background-color: #C3C300; color: #eee">
-                        <h3>EZSetup</h3>
+                        <h3><b>EZSetup</b></h3>
                         <p>Configuration information</p>
                     </div>
                     <!-- SECTIONS TABS CONTROL -->
@@ -51,7 +51,6 @@
                     </div>
                 </div>
             </div>
-            {{model}}
         </div>
 
         <!-- SHUTTLE JAVASCRIPT LOGIC -->
@@ -228,6 +227,7 @@
             mainApp.controller('_controller', function($scope, $http) {
 
                 $scope.model = {
+                    shuttle: ["defined","byte","unsigned char","char","short","int","long","float","decimal","single","double","unticked4","ticked2"]
                 }
                 $scope.layout = {
                     sections: [
@@ -316,24 +316,25 @@
                     });
                 }
                 $scope.onTab = (id) => {
+                    debugger;
                     if (id === "shuttle") {
                         debugger;
-                        var values = $scope.layout.sections[1].list[0].values;
-                        var checked = [];
+                        var v = $scope.layout.sections[1].list[0].values;
                         var unchecked = [];
+                        var checked = [];
 
-                        if (model['shuttle']) {
-                            values.foreach(e => {
-                                if (model['shuttle'].indexOf(e) == -1) {
-                                    unchecked.push(e);
+                        if ($scope.model['shuttle']) {
+                            for (i = 0; i < $scope.model['shuttle'].length; i++) {
+                                checked.push($scope.model['shuttle'][i]);
+                            }
+                            for (i = 0; i < v.length; i++) {
+                                if ($scope.model['shuttle'].indexOf(v[i]) == -1) {
+                                    unchecked.push(v[i]);
                                 } 
-                                else {
-                                    checked.push(e);
-                                }
-                            });
+                            }
                         }
                         else {
-                            unchecked = values;
+                            unchecked = v;
                         }
 
                         debugger;

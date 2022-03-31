@@ -50,18 +50,44 @@
    
                 $scope.init = () => {
                     $scope.location = window.location;
-                    $scope.origin = window.location.origin;
+                    $scope.baseUrl = window.location.origin;
                     $scope.checked = false;
 
+                    console.log($scope.baseUrl);
+                    debugger;
                     $scope.connections = { value : [] }
 
+                    // $scope.fetchConnections();
                     $scope.getConnections();
                 }
-                $scope.getConnections = () => {
+
+                $scope.fetchConnections = async () => {
                     debugger;
+
+                    var headers = new Headers();
+                    headers.append("Accept", "application/json");
+                    headers.append("Content-Type", "application/json");     
+                    
+                    var requestOptions = {
+                        method: 'GET',
+                        headers: headers,
+                        redirect: 'follow'
+                    };  
+                    
+                    const response = await fetch($scope.baseUrl + '/api/v1/connections', requestOptions);
+                    debugger;
+
+                    const data = await response.json();                        
+                    debugger;
+
+                    $scope.connections.value = angular.copy(data);
+                    alert(JSON.stringify(data));
+                }
+
+                $scope.getConnections = () => {
                     var request = {
                         method: 'GET',
-                        url: 'https://localhost:5001/api/v1/connections',
+                        url: $scope.baseUrl + '/api/v1/connections',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
@@ -70,7 +96,6 @@
                     }
                     $http(request).then(
                         successCallback = (response) => {
-                            debugger;
                             $scope.connections.value = response.data;
                             
                             $scope.connections.value.array.forEach(e => {
@@ -83,7 +108,21 @@
                     );            
                 }
                 $scope.onclick = (record) => {
-                    window.open("/apps/cards/index.html?id=" + record.id);
+                    debugger;
+
+                    // folder
+                    if (record.type === 0) {  
+                        window.location.href = "/apps/connections/index.html?id=" + record.id;
+                    } 
+                    // template
+                    else if (record.type === 1) { 
+                        window.location.href = "/apps/templates/index.html?id=" + record.id;
+                    }
+                    // card 
+                    else if (record.type === 2) {
+                        window.location.href = "/apps/cards/index.html?id=" + record.id;
+                    }
+                    
                 }
             });
         </script>

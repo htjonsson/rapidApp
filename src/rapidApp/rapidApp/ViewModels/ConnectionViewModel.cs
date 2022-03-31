@@ -10,16 +10,17 @@ namespace rapidApp.ViewModels
         public string Description { get; set; }
         public DateTime ModifiedDate { get; set; }
     
-        public void Init(Domains.Connection connection)
+        public static ConnectionViewModel Map(Domains.Connection connection)
         {
-            this.Id = connection.Id;
-            if (connection.Type == Domains.ConnectionType.Folder) 
-            {
-                this.Type = "folder";
-            }
-            this.Name = connection.Name;
-            this.Description = connection.Description;
-            this.ModifiedDate = connection.ModifiedDate;
+            var o = new ConnectionViewModel();
+
+            o.Id = connection.Id;
+            o.Type = connection.Type.GetName();
+            o.Name = connection.Name;
+            o.Description = connection.Description;
+            o.ModifiedDate = connection.ModifiedDate;
+
+            return o;
         }
     } 
 }

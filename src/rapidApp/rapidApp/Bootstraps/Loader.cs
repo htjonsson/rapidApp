@@ -14,7 +14,7 @@ namespace rapidApp.Bootstraps {
             var domain = new Domains.Connection()
             {
                 Id = "cognos_ten_samples",
-                Type = ConnectionType.Folder,
+                Type = ConnectionType.Template,
                 Name = "Cognos 10 Samples",
                 Description = string.Empty,
                 ModifiedDate = new DateTime(2018, 12, 10, 13, 49, 51)  

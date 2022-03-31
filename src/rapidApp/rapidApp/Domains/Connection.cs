@@ -3,7 +3,8 @@ using System;
 namespace rapidApp.Domains
 {
     public enum ConnectionType {
-        Folder
+        Folder,
+        Template
     }
 
     public class Connection

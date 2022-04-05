@@ -42,6 +42,7 @@
                         </div>
                     </div>
                     <br/>
+                    {{layout}}
                     <!-- BUTTONBAR -->
                     <div class="w3-container w3-border" style="padding-top: 8pt; padding-bottom: 8pt; background-color: #eee;">
                         <button class="w3-button w3-border w3-white" style="width: 60pt; margin-right: 6pt;">OK</button>
@@ -239,12 +240,14 @@
                                 {
                                     id: "id",
                                     title: "Id",
-                                    type: "text"
+                                    type: "text",
+                                    error: "Data not found"
                                 },
                                 {
                                     id: "name",
                                     title: "Name",
-                                    type: "text"
+                                    type: "text",
+                                    info: "Remember your name"
                                 },
                                 {
                                     id: "description",

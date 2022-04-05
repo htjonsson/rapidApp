@@ -1,23 +1,35 @@
 <div class="w3-row nx-table-label" style="margin-bottom: 4pt;"><b>{{item.title}}</b></div>
 <div class="w3-row" ng-if="item.type === 'text'">
     <input type="text" class="w3-input w3-border nx-input" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}">
+    <span class="nx-info-message" ng-if="item.info">{{item.info}}</span> 
+    <span class="nx-error-message" ng-if="item.error">{{item.error}}</span>   
 </div>
 <div class="w3-row" ng-if="item.type === 'number'">
     <input type="text" class="w3-input w3-border nx-input" style="text-align: right; width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}">
+    <span class="nx-info-message" ng-if="item.info">{{item.info}}</span> 
+    <span class="nx-error-message" ng-if="item.error">{{item.error}}</span>   
 </div>
 <div class="w3-row" ng-if="item.type === 'picklist'">
     <select ng-model="item.model" class="w3-select w3-border nx-select">
         <option ng-repeat="option in item.availableOptions" value="{{option.value}}">{{option.text}}</option>
     </select>
+    <span class="nx-info-message" ng-if="item.info">{{item.info}}</span> 
+    <span class="nx-error-message" ng-if="item.error">{{item.error}}</span>   
 </div>
 <div class="w3-row" ng-if="item.type === 'memo'">
-    <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
+    <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>
+    <span class="nx-info-message" ng-if="item.info">{{item.info}}</span> 
+    <span class="nx-error-message" ng-if="item.error">{{item.error}}</span>     
 </div>
 <div class="w3-row" ng-if="item.type === 'source'">
-    <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>   
+    <textarea rows="{{item.rows}}" class="w3-input w3-border nx-input" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}"></textarea>
+    <span class="nx-info-message" ng-if="item.info">{{item.info}}</span> 
+    <span class="nx-error-message" ng-if="item.error">{{item.error}}</span>   
 </div>
 <div class="w3-row" ng-if="item.type === 'readonly'">
-    <input type="text" class="w3-input w3-border nx-input w3-tooltips" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>   
+    <input type="text" class="w3-input w3-border nx-input w3-tooltips" style="width: 100%;" ng-model="item.model" placeholder="{{item.placeholder}}" readonly>
+    <span class="nx-info-message" ng-if="item.info">{{item.info}}</span> 
+    <span class="nx-error-message" ng-if="item.error">{{item.error}}</span>   
 </div>
 <div class="w3-row" ng-if="item.type === 'shuttle'">
     <!-- SHUTTLE HTML LOGIC -->

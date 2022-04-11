@@ -6,13 +6,8 @@ import { createRoot } from 'react-dom/client';
 import 'antd/dist/antd.css';
 import './index.css';
 
-/*  Ant.Design Components  */
-import { Layout } from 'antd';
-import { Content } from 'antd/lib/layout/layout'; 
-
-/*  Containers  */
-import List from './Containers/List/List';
-import Grid from './Containers/Grid/Grid';
+/*  Pages  */
+import LayoutPage from './Pages/LayoutPage';
 
 /*  Other  */
 import reportWebVitals from './reportWebVitals';
@@ -22,12 +17,7 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <Layout className="layout">
-      <Content style={{ padding: '0 50px' }}>
-        <List />
-        <Grid />
-      </Content>
-    </Layout>
+    <LayoutPage />
   </React.StrictMode>
 );
 
